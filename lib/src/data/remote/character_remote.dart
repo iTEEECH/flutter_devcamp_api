@@ -5,9 +5,9 @@ import 'package:flutter_devcamp_api/src/data/model/character_model.dart';
 import 'package:http/http.dart' as http;
 
 class CharacterRemote {
-  Future<List<CharacterModel>> fetchAllCharacters() async {
+  Future<List<CharacterModel>> fetchAllCharacters(int page) async {
     // Parameter(s).
-    const int page = 1, pageSize = 20;
+    const int pageSize = 10;
 
     // Path.
     final Uri url = Uri.parse('https://api.disneyapi.dev/character?page=$page&pageSize=$pageSize');

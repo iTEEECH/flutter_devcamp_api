@@ -14,25 +14,33 @@ class CharactersPage extends StatefulWidget {
 class _CharactersPageState extends State<CharactersPage> {
   List<CharacterModel> characters = [];
   bool isLoading = true;
+  bool hasMore = true;
+  int page = 1;
+  ScrollController controller = ScrollController();
 
-  Future<void> fetchAll() async {
+  Future<void> fetchCharacters() async {
+    if (!hasMore) return;
+
     final repository = CharacterRepositoryImpl();
-    final result = await repository.fetchAllCharacters();
+    final result = await repository.fetchAllCharacters(page);
 
     setState(() {
-      characters = result;
+      characters.addAll(result);
       isLoading = false;
+      hasMore = result.length == 10;
+      page++;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    fetchAll();
+    fetchCharacters();
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
@@ -43,24 +51,34 @@ class _CharactersPageState extends State<CharactersPage> {
         title: const Text('Disney Characters'),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-          child: isLoading
-              ? const CharacterLoading()
-              : ListView.builder(
-                  key: UniqueKey(),
-                  itemCount: characters.length,
-                  physics: const ClampingScrollPhysics(),
-                  itemBuilder: (context, int index) {
-                    final character = characters[index];
-                    return CharacterCard(
-                      key: ValueKey(index),
-                      name: character.name,
-                      imageUrl: character.imageUrl,
-                      films: character.films,
-                    );
-                  },
-                ),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification is ScrollEndNotification &&
+                notification.metrics.pixels >=
+                    notification.metrics.maxScrollExtent) {
+              fetchCharacters();
+            }
+            return false;
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            child: isLoading
+                ? const CharacterLoading()
+                : ListView.builder(
+              controller: controller,
+              itemCount: characters.length,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: (context, int index) {
+                final character = characters[index];
+                return CharacterCard(
+                  key: ValueKey(index),
+                  name: character.name,
+                  imageUrl: character.imageUrl,
+                  films: character.films,
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

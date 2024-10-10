@@ -4,11 +4,11 @@ import 'package:flutter_devcamp_api/src/domain/character_repository.dart';
 
 class CharacterRepositoryImpl extends CharacterRepository {
   @override
-  Future<List<CharacterModel>> fetchAllCharacters() async {
+  Future<List<CharacterModel>> fetchAllCharacters(int page) async {
     try {
       // Remote call.
       final CharacterRemote remote = CharacterRemote();
-      final List<CharacterModel> characters = await remote.fetchAllCharacters();
+      final List<CharacterModel> characters = await remote.fetchAllCharacters(page);
 
       // Result.
       return characters;
