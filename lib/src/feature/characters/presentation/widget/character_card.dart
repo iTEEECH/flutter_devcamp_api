@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_devcamp_api/src/feature/characters/widget/character_image.dart';
-import 'package:flutter_devcamp_api/src/feature/characters/widget/character_overlay.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_image.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_overlay.dart';
 
 class CharacterCard extends StatelessWidget {
   final String name;

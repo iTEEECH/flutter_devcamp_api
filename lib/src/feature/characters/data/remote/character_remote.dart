@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_devcamp_api/src/data/model/character_model.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/data/model/character_model.dart';
 import 'package:http/http.dart' as http;
 
 class CharacterRemote {

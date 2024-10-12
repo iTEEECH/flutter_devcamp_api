@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_devcamp_api/src/feature/characters/characters_page.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/presentation/page/characters_page.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});

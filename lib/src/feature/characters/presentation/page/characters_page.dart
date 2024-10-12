@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_devcamp_api/src/data/model/character_model.dart';
-import 'package:flutter_devcamp_api/src/data/repository/character_repositroy_impl.dart';
-import 'package:flutter_devcamp_api/src/feature/characters/widget/character_card.dart';
-import 'package:flutter_devcamp_api/src/feature/characters/widget/character_loading.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/data/model/character_model.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/data/repository/character_repositroy_impl.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_card.dart';
+import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_loading.dart';
 
 class CharactersPage extends StatefulWidget {
   const CharactersPage({super.key});
