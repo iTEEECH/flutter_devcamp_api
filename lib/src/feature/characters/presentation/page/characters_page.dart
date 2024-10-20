@@ -4,6 +4,8 @@ import 'package:flutter_devcamp_api/src/feature/characters/data/repository/chara
 import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_card.dart';
 import 'package:flutter_devcamp_api/src/feature/characters/presentation/widget/character_loading.dart';
 
+import '../widget/character_list.dart';
+
 class CharactersPage extends StatefulWidget {
   const CharactersPage({super.key});
 
@@ -16,7 +18,6 @@ class _CharactersPageState extends State<CharactersPage> {
   bool isLoading = true;
   bool hasMore = true;
   int page = 1;
-  ScrollController controller = ScrollController();
 
   Future<void> fetchCharacters() async {
     if (!hasMore) return;
@@ -40,7 +41,6 @@ class _CharactersPageState extends State<CharactersPage> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
@@ -51,33 +51,23 @@ class _CharactersPageState extends State<CharactersPage> {
         title: const Text('Disney Characters'),
       ),
       body: SafeArea(
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            if (notification is ScrollEndNotification &&
-                notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent) {
-              fetchCharacters();
-            }
-            return false;
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+            vertical: 12.0,
+          ),
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification is ScrollEndNotification &&
+                  notification.metrics.pixels >=
+                      notification.metrics.maxScrollExtent) {
+                fetchCharacters();
+              }
+              return false;
+            },
             child: isLoading
                 ? const CharacterLoading()
-                : ListView.builder(
-              controller: controller,
-              itemCount: characters.length,
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: (context, int index) {
-                final character = characters[index];
-                return CharacterCard(
-                  key: ValueKey(index),
-                  name: character.name,
-                  imageUrl: character.imageUrl,
-                  films: character.films,
-                );
-              },
-            ),
+                : CharactersList(characters: characters),
           ),
         ),
       ),
